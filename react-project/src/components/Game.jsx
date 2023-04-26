@@ -15,18 +15,14 @@ class Game extends Component {
     this.state = {
       items,
     };
+    this.handleAnswer=this.handleAnswer.bind(this);
   }
+  
   handleAnswer(event,item, index, answer) {
     this.props.handleScore(item.displayed === answer);
-      const items = this.state.items.map((item) => {
-        if (item.displayed) {
-          return item;
-        } else {
-          item.displayed = true;
-          return item;
-        }
-      });
-      this.setState({ items });
+    const updatedItems=[...this.state.items];
+    updatedItems[index].displayed=true;
+    this.setState({items:updatedItems});
     
   }
   randomItemIndex() {
@@ -38,10 +34,10 @@ class Game extends Component {
     const item = items[this.randomItemIndex()];
     return (
       <main className="d-flex justify-content-around align-items-centers">
-        <p id={items.indexOf(item)}>{items.content}</p>
+        <p id={items.indexOf(item)}>{item.content}</p>
         <Prompt
           item={item}
-          index={index}
+          index={this.state.items.indexOf(item)}
           handleAnswer={this.handleAnswer}
         />
       </main>
